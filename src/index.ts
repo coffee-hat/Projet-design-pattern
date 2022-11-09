@@ -1,38 +1,43 @@
-/*adapter / commande / Abstract factory / singletone / Observer*/
-import { IAbstractFactory, ConcreteFactory1 } from './AbstractFactory';
+/*Abstract factory / Observer / singleton / adapter / commande*/
+import { ManufacturerA_Factory } from './AbstractFactory';
 import { StarShip } from './StarShip'
-import {IObserver, IEventManager, EventManager, } from './Observer';
+import {IObserver, EventManager, } from './Observer';
 
-const factory = new ConcreteFactory1()
-const subject = new EventManager();
+const factory = new ManufacturerA_Factory()
+const eventManager = EventManager.getInstance();
 
 function message(message: string){
     starShip.cockpitMessage(message);
 }
 
 class Observer implements IObserver {
-    public update(subject: IEventManager): void {
-        message("Global info : Sensors equipers");
+    public update(data: string): void {
+        //si equiper message
+        message("Global info [ " + data + " is equipped ]");
+
+        //si activer message
     }
 }
 
-const motionSensor = factory.createProductA(); // creation Sensors
-const radarSensor = factory.createProductB();
-
-console.log(motionSensor.manufacturer);
-console.log(radarSensor.manufacturer);
-
-//Evenement
-const observer1 = new Observer();
-subject.attach(observer1);
+//Event
+const observer = new Observer();
+eventManager.on("add-component", observer);
 
 
-const starShip = new StarShip("FTL", 10, subject);  // creation starShip
+// creation Sensors
+const motionSensor = factory.createMotionSensor(); 
+const radarSensor = factory.createRadarSensor();
+
+// creation starShip
+const starShip = new StarShip("FTL", 10); 
 message("Initialisation ...");
 
 
 //ajoute des Sensor au vaisseaux
 starShip.addComponent(motionSensor);
-starShip.addComponent(motionSensor);
+motionSensor.Equipped();
+starShip.addComponent(radarSensor);
+radarSensor.Equipped();
 
+//TODO mettre un adapter sur la communication des Sensors
 
