@@ -1,5 +1,5 @@
 export interface IObserver{
-    update(data: string);
+    update(data: Map<string, string>);
 }
 
 
@@ -24,7 +24,7 @@ export class EventManager{
         this.subscribers[event].push(observable);
     }
 
-    emit(event: string, data: any){
+    emit(event: string, data: Map<string, string>){
         this.subscribers[event]?.forEach((observable) => observable.update(data));
     }
 
