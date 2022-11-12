@@ -6,7 +6,8 @@
   "scripts": {
     "start": "tsc && node dist/src/index.js",
     "example":"tsc && node dist/example/example.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "command": "tsc && node dist/example/command.js"
     
   },
   "keywords": [],

@@ -3,6 +3,7 @@ import { ManufacturerA_Factory } from './AbstractFactory';
 import { StarShip } from './StarShip'
 import {IObserver, EventManager, } from './Observer';
 import { Message, EncrypMessage, Adapter } from './Adapter'
+import { Invoker, Receiver, ShieldsCommand, MissilesCommand, RadarSensorCommand, MotionSensorCommand} from './Command'
 
 const factory = new ManufacturerA_Factory()
 const eventManager = EventManager.getInstance();
@@ -34,10 +35,36 @@ const starShip = StarShip.getInstance();
 starShip.cockpitMessage("Initialisation ...");
 
 //ajoute des Sensor au vaisseaux
-starShip.addComponent(motionSensor);
+starShip.addComponent("motionSensor", motionSensor);
 motionSensor.Equipped();
-starShip.addComponent(radarSensor);
+starShip.addComponent("radarSensor", radarSensor);
 radarSensor.Equipped();
 
-//TODO command pattern
+starShip.cockpitMessage(`decollage... \n le starship ${starShip.name} est dans l'espace\n`);
 
+
+//command pattern
+const invoker = new Invoker();
+const receiver = new Receiver(starShip);
+
+//active motion sensor
+invoker.setOnStart(new MotionSensorCommand(receiver, true));
+invoker.commandExecute();
+
+//shield on
+invoker.setOnStart(new ShieldsCommand(starShip));
+invoker.commandExecute();
+
+//active heat sensor => real threat
+invoker.setOnStart(new RadarSensorCommand(receiver, true));
+invoker.commandExecute();
+
+//turn off shield
+starShip.cockpitMessage("real threat detected, combat mode engaging")
+invoker.setOnStart(new ShieldsCommand(starShip));
+invoker.commandExecute();
+
+
+//send missiles
+invoker.setOnStart(new MissilesCommand(receiver, 3));
+invoker.commandExecute();

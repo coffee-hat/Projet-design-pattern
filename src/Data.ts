@@ -5,6 +5,7 @@ export interface IMotionSensor{
     manager : EventManager;
     Equipped(): void;
     message(): Map<string, string>;
+    setStat():void
 }
 
 export interface IRadarSensor{
@@ -13,6 +14,7 @@ export interface IRadarSensor{
     isActivate: boolean;
     Equipped(): void;
     message(): Map<string, string>;
+    setStat():void
 }
 
 export class MotionSensorA implements IMotionSensor{
@@ -34,6 +36,10 @@ export class MotionSensorA implements IMotionSensor{
         return new Map([
             ["Motion",("Motion Sensor of " + this.manufacturer)]
         ])
+    }
+
+    setStat():void{
+        this.isActivate = !this.isActivate;
     }
 }
 
@@ -80,6 +86,10 @@ export class RadarSensorA implements IRadarSensor{
             ["Radar",("Radar Sensor of " + this.manufacturer).split('').reverse().join('')]
         ])
 
+    }
+    
+    setStat():void{
+        this.isActivate = !this.isActivate;
     }
 }
 
