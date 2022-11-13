@@ -1,11 +1,21 @@
-/*Abstract factory / Observer / singleton / adapter / commande*/
+//import
 import { ManufacturerA_Factory } from './AbstractFactory';
 import { StarShip } from './StarShip'
 import {IObserver, EventManager, } from './Observer';
 import { Message, EncrypMessage, Adapter } from './Adapter'
 import { Invoker, Receiver, ShieldsCommand, MissilesCommand, RadarSensorCommand, MotionSensorCommand} from './Command'
 
-const factory = new ManufacturerA_Factory()
+//Constants Global **********************************
+const STARSHIP_NAME = 'FTL';
+const MISSILES_COUNT: number = 10;
+const MANUFACTURE_TYPE = new ManufacturerA_Factory();
+
+//***************************************************
+
+//factory pour les sensors
+const factory = MANUFACTURE_TYPE;
+
+//observer pour les evenements
 const eventManager = EventManager.getInstance();
 
 const sendMessage = new Message();
@@ -16,8 +26,6 @@ class Observer implements IObserver {
         //si equiper message
         if(data.has("Motion")) sendMessage.request(data.get("Motion"));
         if(data.has("Radar")) adapter.request(data.get("Radar"));
-
-        //si activer message
     }
 }
 
@@ -30,7 +38,7 @@ const motionSensor = factory.createMotionSensor();
 const radarSensor = factory.createRadarSensor();
 
 // creation starShip
-StarShip.setInstance("FTL", 10);
+StarShip.setInstance(STARSHIP_NAME, MISSILES_COUNT);
 const starShip = StarShip.getInstance(); 
 starShip.cockpitMessage("Initialisation ...");
 

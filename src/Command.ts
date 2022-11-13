@@ -107,16 +107,3 @@ export class Invoker {
         return object.execute !== undefined;
     }
 }
-
-/**
- * The client code can parameterize an invoker with any commands.
-*/
-/*
-const invoker = new Invoker();
-const receiver = new Receiver();
-
-invoker.setOnStart(new SimpleCommand('Say Hi!'));
-
-invoker.setOnFinish(new ComplexCommand(receiver, 'Send email', 'Save report'));
-
-invoker.doSomethingImportant();*/

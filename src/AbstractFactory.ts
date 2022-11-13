@@ -22,3 +22,25 @@ export class ManufacturerA_Factory implements IAbstractFactory {
         return new RadarSensorA(this.manufacturer);
     }
 }
+
+export class ManufacturerB_Factory implements IAbstractFactory {
+    manufacturer: string = ManufacturerList.B;
+    public createMotionSensor(): IMotionSensor {
+        return new MotionSensorA(this.manufacturer);
+    }
+
+    public createRadarSensor(): IRadarSensor {
+        return new RadarSensorA(this.manufacturer);
+    }
+}
+
+export class ManufacturerC_Factory implements IAbstractFactory {
+    manufacturer: string = ManufacturerList.C;
+    public createMotionSensor(): IMotionSensor {
+        return new MotionSensorA(this.manufacturer);
+    }
+
+    public createRadarSensor(): IRadarSensor {
+        return new RadarSensorA(this.manufacturer);
+    }
+}
